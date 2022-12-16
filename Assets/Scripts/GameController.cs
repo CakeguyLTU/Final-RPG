@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace LP.TurnBasedGame
 {
@@ -17,17 +18,35 @@ namespace LP.TurnBasedGame
 
 
         private bool playerTurn = true;
+        //public Animator animator;
+        
+        public void LoadLevel(string sceneName)
+        {
+            if(playerHealth.value <= 0)
+            {
+                SceneManager.LoadScene(sceneName);
+            }
+            if (enemyHealth.value <= 0)
+            {
+                SceneManager.LoadScene(sceneName);
+            }
+            
+        }
+
         private void Attack(GameObject target, float damage, float block)
         {
             if (target == enemy)
             {
                 enemyHealth.value -= damage;
+                //animator.SetBool("Attack01", true);
             }
             else
             {
                 playerHealth.value -= damage;
+                //animator.SetBool("Attack02", true);
             }
-
+           // animator.SetBool("IdleNormal", true);
+            //animator.SetBool("IdleNormal1", true);
             ChangeTurn();
         }
 
@@ -36,12 +55,15 @@ namespace LP.TurnBasedGame
             if(target == enemy)
             {
                 enemyHealth.value += amount;
+               // animator.SetBool("Taunt1", true);
             }
             else
             {
                 playerHealth.value += amount;
+               // animator.SetBool("Taunt", true);
             }
-
+           // animator.SetBool("IdleNormal", true);
+           //animator.SetBool("IdleNormal1", true);
             ChangeTurn();
         }
 
@@ -51,12 +73,15 @@ namespace LP.TurnBasedGame
             if(target == enemy)
             {
                 enemyHealth.value += block;
-
+                //animator.SetBool("GetHit", true);
             }
             else
             {
                 playerHealth.value += block;
+                //animator.SetBool("Defend", true);
             }
+           // animator.SetBool("IdleNormal", true);
+            //animator.SetBool("IdleNormal1", true);
 
             ChangeTurn();
 
@@ -81,6 +106,14 @@ namespace LP.TurnBasedGame
 
             if(!playerTurn)
             {
+                //animator.SetBool("GetHit", false);
+                //animator.SetBool("Defend", false);
+               // animator.SetBool("Taunt1", false);
+               // animator.SetBool("Taunt", false);
+               // animator.SetBool("Attack01", false);
+               // animator.SetBool("Attack02", false);
+               // animator.SetBool("IdleNormal", true);
+               // animator.SetBool("IdleNormal01", true);
                 attackButton.interactable = false;
                 healButton.interactable = false;
                 defendButton.interactable = false;
@@ -89,6 +122,14 @@ namespace LP.TurnBasedGame
             }
             else
             {
+               // animator.SetBool("GetHit", false);
+                //animator.SetBool("Defend", false);
+                //animator.SetBool("Taunt1", false);
+                //animator.SetBool("Taunt", false);
+                //animator.SetBool("Attack01", false);
+               // animator.SetBool("Attack02", false);
+               /// animator.SetBool("IdleNormal", true);
+               // animator.SetBool("IdleNormal01", true);
                 attackButton.interactable = true;
                 healButton.interactable = true;
                 defendButton.interactable = true;
