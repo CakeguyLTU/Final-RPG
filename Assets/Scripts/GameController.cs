@@ -13,10 +13,11 @@ namespace LP.TurnBasedGame
         [SerializeField] private Slider enemyHealth = null;
         [SerializeField] private Button attackButton = null;
         [SerializeField] private Button healButton = null;
+        [SerializeField] private Button defendButton = null;
+
 
         private bool playerTurn = true;
-
-        private void Attack(GameObject target, float damage)
+        private void Attack(GameObject target, float damage, float block)
         {
             if (target == enemy)
             {
@@ -44,9 +45,25 @@ namespace LP.TurnBasedGame
             ChangeTurn();
         }
 
+        private void Defend(GameObject target, float block)
+        {
+
+            if(target == enemy)
+            {
+                enemyHealth.value += block;
+
+            }
+            else
+            {
+                playerHealth.value += block;
+            }
+
+            ChangeTurn();
+
+        }
         public void buttonAttack()
         {
-            Attack(enemy, 10);
+            Attack(enemy, 15, 0);
         }
 
         public void buttonHeal()
@@ -54,6 +71,10 @@ namespace LP.TurnBasedGame
             Heal(player, 7);
         }
     
+        public void buttonDefend()
+        {
+            Defend(player, 7);
+        }
         private void ChangeTurn()
         {
             playerTurn = !playerTurn;
@@ -62,6 +83,7 @@ namespace LP.TurnBasedGame
             {
                 attackButton.interactable = false;
                 healButton.interactable = false;
+                defendButton.interactable = false;
 
                 StartCoroutine(enemyTurn());
             }
@@ -69,6 +91,7 @@ namespace LP.TurnBasedGame
             {
                 attackButton.interactable = true;
                 healButton.interactable = true;
+                defendButton.interactable = true;
             }
         }
 
@@ -77,15 +100,21 @@ namespace LP.TurnBasedGame
             yield return new WaitForSeconds(4);
 
             int random = 0;
-            random = Random.Range(1, 3);
+            random = Random.Range(1, 100);
 
-            if(random == 1)
+            if(random > 0 && random <= 55)
             {
-                Attack(player, 15);
+
+                Attack(player, 15 , 0);
+                
+            }
+            else if(random > 55 && random <= 75)
+            {
+                Heal(enemy, 7);
             }
             else
             {
-                Heal(enemy, 5);
+                Defend(enemy, 10);
             }
         }
      }
